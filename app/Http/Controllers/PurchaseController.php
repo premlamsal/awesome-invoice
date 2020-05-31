@@ -108,7 +108,7 @@ class PurchaseController extends Controller
 
         $timeStamp = now();
 
-        $jsonResponse=array();
+        $jsonResponse = array();
 
         for ($i = 0; $i < $countItems; $i++) {
 
@@ -203,10 +203,6 @@ class PurchaseController extends Controller
 
             'info.discount'      => 'required | numeric| max:200',
 
-            // 'items.*.product_name' => 'required | string |max:200',
-            // 'items.*.price'        => 'required | numeric',
-            // 'items.*.quantity'     => 'required | numeric',
-
         ], [
             //custom validation message for each module
             'required' => 'This field can\'t be blank',
@@ -227,129 +223,11 @@ class PurchaseController extends Controller
 
         $purchase = Purchase::findOrFail($id);
 
-        // $items = collect($request->items)->transform(function($item) {
-        //     $item['line_total'] = $item['quantity'] *$item['price'];
-        //     return new PurchaseDetail($item);
-        // });
-
-        // if ($items->isEmpty()) {
-        //     return response()
-        //         ->json([
-        //             'items_empty' => ['One or more Item is required.'],
-        //         ], 422);
-        // }
-
         $data = $request->info;
-
-        // $data['sub_total']   = $items->sum('line_total');
-        // $data['tax_amount']  = $data['sub_total'] *  $store_tax;;
-        // $data['grand_total'] = $data['sub_total'] + $data['tax_amount'] - $data['discount'];
 
         $purchase->update($data);
 
-        // PurchaseDetail::where('purchase_id', $purchase->id)->delete();
-
-        // $purchase->purchaseDetail()->saveMany($items);
-
         return response()->json(['msg' => 'You have successfully updated the Purchase.', 'status' => 'success']);
-
-        //for new implementaion
-
-        //  // //validation
-        //   $this->validate($request,[
-
-        //      'info.note' => 'required | string |max:200',
-        //      'info.supplier_name' => 'required | string| max:200',
-        //      'info.due_date' => 'required | date',
-        //      'info.purchase_date' => 'required | date',
-
-        //      'info.discount' => 'required | numeric| max:200',
-
-        //      'items.*.product_name' => 'required | string |max:200',
-        //      'items.*.price' => 'required | numeric',
-        //      'items.*.quantity' => 'required | numeric',
-
-        //  ]);
-
-        //  $id=$request->id;//purchase id
-
-        //  $purchase = Purchase::findOrFail($id);
-
-        //  $items = collect($request->items)->transform(function($item) {
-        //      $item['line_total'] = $item['quantity'] *$item['price'];
-        //      return new PurchaseDetail($item);
-        //  });
-
-        //  if($items->isEmpty()) {
-        //      return response()
-        //      ->json([
-        //          'items_empty' => ['One or more Item is required.']
-        //      ], 422);
-        //  }
-
-        //  $data = $request->info;
-
-        //  $data['sub_total'] = $items->sum('line_total');
-        //  $data['tax_amount'] = $data['sub_total'] * 0.13;
-        //  $data['grand_total'] = $data['sub_total'] + $data['tax_amount'] - $data['discount'];
-
-        //  //for inserting in stock and altering if already has one initialized stock and previous stock
-        //  $items_raw=collect($request->items);//collecting new items from the submit form
-
-        //  $countItemsNew=count($items_raw);//get new items length of elements
-
-        //  $timeStamp=now();
-
-        //  //retriving old purchase records for the references
-        //  $purchaseDetail_old=PurchaseDetail::where('purchase_id',$id)->get();//get old data from the database
-
-        //  $countItemsOld=count($purchaseDetail_old);//get old items length of elements
-
-        //  for($i=0;$i<$countItemsOld;$i++){
-
-        //     //get product id from each purchase details
-        //     $p_id=$purchaseDetail_old[$i]['product_id'];
-
-        //     $purchase_qty_old=$purchaseDetail_old[$i]['quantity'];
-
-        //     //retiving current stock
-        //     $stock=Stock::where('product_id',$p_id);
-
-        //     $stock_quantity=$stock->value('quantity');
-
-        //      //get stock id
-        //     $stock_id=$stock->value('id');
-
-        //      $temp_quantity=$stock_quantity - $purchase_qty_old;
-
-        //      for($j=0;$j<$countItemsNew;$j++){
-
-        //      //adding current stock with new purchased product quantity
-        //      $new_stock_quantity = $temp_quantity + $items_raw[$j]['quantity'];
-
-        //      $stock=Stock::findOrFail($stock_id);
-
-        //      $stock->quantity=$new_stock_quantity;
-
-        //      $stock->unit_id=$items_raw[$j]['unit_id'];
-
-        //      $stock->created_at=$timeStamp;
-
-        //      $stock->updated_at=$timeStamp;
-
-        //      $stock->save();
-
-        //      }
-
-        // }
-
-        //  $purchase->update($data);
-
-        //  PurchaseDetail::where('purchase_id', $purchase->id)->delete();
-
-        //  $purchase->purchaseDetail()->saveMany($items);
-
-        //  return response()->json(['msg'=>'You have successfully updated the Purchase.','status'=>'success']);
 
     }
 

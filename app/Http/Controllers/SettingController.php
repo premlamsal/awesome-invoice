@@ -14,7 +14,7 @@ class SettingController extends Controller
     }
     public function index()
     {
-        
+
         $Settings = Setting::first();
 
         return response()

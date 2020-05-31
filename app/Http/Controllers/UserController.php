@@ -31,9 +31,11 @@ class UserController extends Controller
 
         $this->validate($request, [
 
-            'name'  => 'required|string|max:20',
+            'name'     => 'required|string|max:20',
 
-            'email' => 'required|email|max:100',
+            'email'    => 'required|email|max:100',
+
+            'password' => 'required | string',
             // 'password'=>'required| min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
             //English uppercase characters (A – Z)
 
@@ -82,9 +84,11 @@ class UserController extends Controller
 
         $this->validate($request, [
 
-            'name'  => 'required|string|max:20',
+            'name'     => 'required|string|max:20',
 
-            'email' => 'required|email|max:100',
+            'email'    => 'required|email|max:100',
+
+            'password' => 'required | string',
             // 'password'=>'required| min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
             //English uppercase characters (A – Z)
 
