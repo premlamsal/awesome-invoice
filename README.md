@@ -31,6 +31,10 @@
 <h4>Demo</h4>
 <h5>Dashboard</h5>
 <img src="https://premlamsal.github.io/projects/awesome-invoice/images/demos/one.png">
+<h5>Invoice</h5>
+<img src="https://premlamsal.github.io/projects/awesome-invoice/images/demos/two.PNG">
+<h5>Purchase</h5>
+<img src="https://premlamsal.github.io/projects/awesome-invoice/images/demos/three.PNG">
 
 <h2>DOCUMENTATION</h2>
 <h5>Installation</h5>
