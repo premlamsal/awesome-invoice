@@ -1,0 +1,34 @@
+new Vue({
+	el: "#app",
+  data () {
+  return {
+  	Questions: [],
+    cloneQuestions: []
+    }
+  },
+  mounted() {
+   
+   this.Questions = [{foo:1, changed: false}, {foo:2, changed: false}];
+   this.cloneQuestions = this.Questions.map(a => Object.assign({}, a));
+   },
+  created (){
+  var vm = this;
+  this.$watch("Questions", function (after, before) {
+  	after.filter( function( p, idx ) {
+    	return Object.keys(p).some( function( prop ) {
+      	var diff = p[prop] !== vm.cloneQuestions[idx][prop];
+        if(diff) {
+        	p.changed = true;
+          vm.cloneQuestions[idx][prop] = p[prop];
+        }
+      })
+     });
+     
+      }, {deep: true})
+  }, 
+  methods: {
+  	change: function () {
+	    this.Questions[0].foo = 5
+    }
+  }
+})
