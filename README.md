@@ -15,7 +15,7 @@
 	<li>vue-bootstrap-datetimepicker</li>
 </ul>
 
-<h2>DOCUMENTATION</h2>
+
 <h4>MODULES INCLUDED</h4>
 <ul>
 	<li>CATEGORIES</li>
@@ -27,4 +27,12 @@
 	<li>USERS</li>
 	<li>STORE</li>
 	<li>UNITS</li>
+</ul>
+
+<h2>DOCUMENTATION</h2>
+<h5>Installation</h5>
+<ul>
+	<li>composer install</li>
+	<li>npm install</li>
+	<li>Go to App link "/install"</li>
 </ul>
