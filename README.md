@@ -6,6 +6,16 @@
 <p>Single Store for a User</p>
 <p>Muliple User for a Store</p>
 
+<h4>used npm packages</h4>
+<ul>
+	<li>vuex</li>
+	<li>vue-router</li>
+	<li>bootstrap-vue</li>
+	<li>vue-sweetalert2</li>
+	<li>vue-bootstrap-datetimepicker</li>
+</ul>
+
+
 <h4>MODULES INCLUDED</h4>
 <ul>
 	<li>CATEGORIES</li>
@@ -18,6 +28,9 @@
 	<li>STORE</li>
 	<li>UNITS</li>
 </ul>
+<h4>Demo</h4>
+<h5>Dashboard</h5>
+<img src="https://premlamsal.github.io/projects/awesome-invoice/images/demos/one.png">
 
 <h2>DOCUMENTATION</h2>
 <h5>Installation</h5>
