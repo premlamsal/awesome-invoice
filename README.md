@@ -6,16 +6,6 @@
 <p>Single Store for a User</p>
 <p>Muliple User for a Store</p>
 
-<h4>used npm packages</h4>
-<ul>
-	<li>vuex</li>
-	<li>vue-router</li>
-	<li>bootstrap-vue</li>
-	<li>vue-sweetalert2</li>
-	<li>vue-bootstrap-datetimepicker</li>
-</ul>
-
-
 <h4>MODULES INCLUDED</h4>
 <ul>
 	<li>CATEGORIES</li>
