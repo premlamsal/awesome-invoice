@@ -244,8 +244,8 @@
             </nav>
             <div class="credits ml-auto">
               <span class="copyright">
-                ©Made with <i class="fa fa-heart heart"></i> by Prem Lamsal
-              </span>
+                ©Made with <i class="fa fa-heart heart"></i> by <a href="http://premlamsal.com.np?app=awesome-invoice">Prem Lamsal
+              </a></span>
             </div>
           </div>
         </div>
