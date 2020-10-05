@@ -332,7 +332,7 @@ export default {
         this.queryResults = null;
       } else {
         axios
-          .post("api/supplier_search/", {
+          .post("api/supplier_search", {
             searchQuery: this.info.supplier_name
           })
           .then(response => {

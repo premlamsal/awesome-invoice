@@ -185,7 +185,7 @@ export default {
       this.isLoading = "Loading Data";
 
       axios
-        .get("api/store/")
+        .get("api/store")
 
         .then(function(response) {
           Vue.set(currObj.store, "id", response.data.store.id);

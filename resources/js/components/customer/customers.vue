@@ -89,6 +89,11 @@
                 <td>{{customer.address}}</td>
                 <td>{{customer.phone}}</td>
                 <td>{{customer.details}}</td>
+                <td>{{customer.updated_at | moment("from","now")}}</td>
+                <td>
+                   <button class="btn btn-outline-success custom_btn_table" @click="viewCustomerInfo(customer.id)" v-if="hasPermission('view_customer_info')">
+                    <span class="fa fa-align-justify custom_icon_table"></span>
+                  </button>
                 <td>{{customer.updated_at | moment("from", "now")}}</td>
                 <td>
                   <button class="btn btn-outline-success custom_btn_table" @click="editCustomer(customer.id)" v-if="hasPermission('edit_customer')">
@@ -413,6 +418,9 @@ export default {
     }, //end of deleteUnit()
     searchTableBtn() {
       this.autoCompleteTable();
+    },
+    viewCustomerInfo(id){
+      this.$router.push({ path: `${id}/viewCustomerInfo/` });
     },
     autoCompleteTable() {
       this.searchTableKey = this.searchTableKey.toLowerCase();

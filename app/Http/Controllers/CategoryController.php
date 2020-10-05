@@ -48,6 +48,7 @@ class CategoryController extends Controller
 
         $this->authorize('hasPermission', 'show_category');
 
+
         $category = Category::findOrFail($id);
 
         if ($category) {
@@ -64,6 +65,7 @@ class CategoryController extends Controller
     public function update(Request $request)
     {
         $this->authorize('hasPermission', 'update_category');
+
 
         $this->validate($request, [
             'name'        => 'required|string|max:10',
@@ -90,6 +92,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $this->authorize('hasPermission', 'delete_category');
+
 
         $category = Category::findOrFail($id);
         if ($category->delete()) {

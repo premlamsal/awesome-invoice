@@ -23,6 +23,15 @@ class InvoiceController extends Controller
     public function index()
     {
 
+        /*---------------------------------------------------------
+        This block will only return non-realtionship model
+
+        // Get Invoices
+        // $Invoices= Invoice::orderBy('created_at', 'desc')->paginate(3);
+
+        //Return collection of Invoices as a resource
+        // return InvoiceResource::collection($Invoices);
+        -----------------------------------------------------------*/
         $this->authorize('hasPermission', 'view_invoices');
 
         return InvoiceResource::collection(Invoice::with('invoiceDetail')->orderBy('updated_at', 'desc')->paginate(8));
@@ -206,6 +215,10 @@ class InvoiceController extends Controller
 
             'info.discount'      => 'required | numeric| max:200',
 
+            // 'items.*.product_name' => 'required | string |max:200',
+            // 'items.*.price'        => 'required | numeric',
+            // 'items.*.quantity'     => 'required | numeric',
+
         ], [
 
             //custom validation message for each module
@@ -226,12 +239,137 @@ class InvoiceController extends Controller
 
         $invoice = Invoice::findOrFail($id);
 
+        // $items = collect($request->items)->transform(function($item) {
+        //     $item['line_total'] = $item['quantity'] *$item['price'];
+        //     return new InvoiceDetail($item);
+        // });
+
+        // if ($items->isEmpty()) {
+        //     return response()
+        //         ->json([
+        //             'items_empty' => ['One or more Item is required.'],
+        //         ], 422);
+        // }
+
         $data = $request->info;
+
+        // $data['sub_total']   = $items->sum('line_total');
+        // $data['tax_amount']  = $data['sub_total'] * $store_tax;
+        // $data['grand_total'] = $data['sub_total'] + $data['tax_amount'] - $data['discount'];
 
         $invoice->update($data);
 
+        // InvoiceDetail::where('invoice_id', $invoice->id)->delete();
+
+        // $invoice->invoiceDetail()->saveMany($items);
+
         return response()->json(['msg' => 'You have successfully updated the Invoice.', 'status' => 'success']);
 
+    }
+
+    public function returnInvoice(Request $request)
+    {
+        $this->authorize('hasPermission', 'return_invoice');
+
+        // //validation
+        $this->validate($request, [
+
+            'info.note'            => 'required | string |max:200',
+            'info.supplier_name'   => 'required | string| max:200',
+            'info.due_date'        => 'required | date',
+            'info.purchase_date'   => 'required | date',
+
+            'info.discount'        => 'required | numeric| max:200',
+
+            'items.*.product_name' => 'required | string |max:200',
+            'items.*.price'        => 'required | numeric',
+            'items.*.quantity'     => 'required | numeric',
+
+        ], [
+            //custom validation message for each module
+            'required' => 'This field can\'t be blank',
+            'numeric'  => 'This field only accepts numeric',
+            'string'   => 'This field only accepts string',
+            'max'      => 'This field should not exceed :max characters',
+            'min'      => 'This field should contain minimum :min characters',
+            'date'     => 'This field should contain valid date',
+        ]);
+
+        $id = $request->id; //invoice id
+
+        $invoice = Invoice::findOrFail($id);
+
+        $items = collect($request->items)->transform(function ($item) {
+            $item['line_total'] = $item['quantity'] * $item['price'];
+            return new InvoiceDetail($item);
+        });
+
+        if ($items->isEmpty()) {
+            return response()
+                ->json([
+                    'items_empty' => ['One or more Item is required.'],
+                ], 422);
+        }
+
+        $data = $request->info;
+
+        $data['sub_total']   = $items->sum('line_total');
+        $data['tax_amount']  = $data['sub_total'] * $store_tax;
+        $data['grand_total'] = $data['sub_total'] + $data['tax_amount'] - $data['discount'];
+
+        //for inserting in stock and altering if already has one initialized stock and previous stock
+        $items_raw = collect($request->items); //collecting new items from the submit form
+
+        $countItemsNew = count($items_raw); //get new items length of elements
+
+        $timeStamp = now();
+
+        //retriving old purchase records for the references
+        $invoiceDetail_old = InvoiceDetail::where('invoice_id', $id)->get(); //get old data from the database
+
+        $countItemsOld = count($invoiceDetail_old); //get old items length of elements
+
+        for ($i = 0; $i < $countItemsOld; $i++) {
+
+            $p_id = $items[$i]['product_id'];
+
+            $stock = Stock::where('product_id', $p_id);
+
+            //retirving current product-> stock quantity
+            $in_stock_quantity = $stock->value('quantity');
+
+            //get stock id
+            $stock_id = $stock->value('id');
+
+            //adding current stock with new purchased product quantity
+            if ($in_stock_quantity >= $items[$i]['quantity']) {
+
+                $new_stock_quantity = $in_stock_quantity - $items[$i]['quantity'];
+
+                $stock = Stock::findOrFail($stock_id);
+
+                $stock->quantity = $new_stock_quantity;
+
+                $stock->unit_id = $items[$i]['unit_id'];
+
+                $stock->created_at = $timeStamp;
+
+                $stock->updated_at = $timeStamp;
+
+                if ($stock->save()) {
+
+                    $invoice->update($data);
+
+                    InvoiceDetail::where('invoice_id', $invoice->id)->delete();
+
+                    $invoice->InvoiceDetail()->saveMany($items);
+
+                    return response()->json(['msg' => 'You have successfully return the invoice.', 'status' => 'success']);
+
+                }
+            }
+        }
+        return response()->json(['msg' => 'Failed while returning invoice. Check your stock quanity.', 'status' => 'error']);
     }
 
     public function show($id)
@@ -335,6 +473,25 @@ class InvoiceController extends Controller
                 'status' => 'error',
             ]);
         }
+    }
+    public function changeInvoiceStatus(Request $request)
+    {
+        $key = $request->input('key');
+
+        $value = $request->input('value');
+
+        $invoice             = Invoice::findOrFail($key);
+        $invoice->status     = $value;
+        $invoice->updated_at = time();
+
+        if ($invoice->save()) {
+            return response()->json(['status' => 'success', 'msg' => $invoice->custom_invoice_id.' changed to ' . $value . '']);
+        } else {
+
+            return response()->json(['status' => 'failed', 'msg' => 'Invoice status changed Failed']);
+
+        }
+
     }
 
 }

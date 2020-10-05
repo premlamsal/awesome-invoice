@@ -429,22 +429,22 @@ export default {
         this.queryResults = new Array();
       } else {
         axios
-          .post("api/suppliers/search/", {
+          .post("api/suppliers/search", {
             searchQuery: this.info.supplier_name
           })
           .then(response => {
             this.queryResults = response.data.data;
           })
           .catch(error => {
-            if (error.response.status == 422) {
-              currObj.validationErrors = error.response.data.errors;
-              currObj.errors = currObj.validationErrors;
-              // console.log(currObj.errors);
-              currObj.$toast.error({
-                title: "Opps!!",
-                message: error.response.data.message
-              });
-            }
+            // if (error.response.status == 422) {
+            //   currObj.validationErrors = error.response.data.errors;
+            //   currObj.errors = currObj.validationErrors;
+            //   // console.log(currObj.errors);
+            //   currObj.$toast.error({
+            //     title: "Opps!!",
+            //     message: error.response.data.message
+            //   });
+            // }
           });
       }
     }, 300),
@@ -455,7 +455,7 @@ export default {
         this.showProductSuggestion = false;
       } else {
         axios
-          .post("api/products/search/", {
+          .post("api/products/search", {
             searchQuery: this.items[index].product_name
           })
           .then(response => {

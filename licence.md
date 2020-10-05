@@ -1,4 +1,3 @@
 <h1>Licence for Awesome-invoice</h1>
-<p>Free for students and new learners</p>
-
-<h3>Don't remove the footer credits </h3>
+<p>Fair for students and new learners</p>
+<p>Not For Commercial Use</p>

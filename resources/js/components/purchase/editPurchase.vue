@@ -411,7 +411,7 @@ export default {
         this.queryResults = null;
       } else {
         axios
-          .post("api/supplier/search/", {
+          .post("api/supplier/search", {
             searchQuery: this.info.supplier_name
           })
           .then(response => {
@@ -437,7 +437,7 @@ export default {
         this.showProductSuggestion = false;
       } else {
         axios
-          .post("/api/products/search/", {
+          .post("/api/products/search", {
             searchQuery: this.items[index].product_name
           })
           .then(response => {

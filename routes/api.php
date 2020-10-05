@@ -92,6 +92,9 @@ Route::post('invoice', 'InvoiceController@store');
 //Update invoice
 Route::put('invoice', 'InvoiceController@update');
 
+//update status of invoice i.e To Pay or Paid 
+Route::put('changeInvoiceStatus','InvoiceController@changeInvoiceStatus');
+
 //return invoice
 // Route::put('invoice/return','InvoiceController@returnInvoice');
 
@@ -158,6 +161,9 @@ Route::delete('purchase/{id}', 'PurchaseController@destroy');
 //search purchases
 Route::post('purchases/search', 'PurchaseController@searchPurchases');
 
+//update status of invoice i.e To Pay or Paid 
+Route::put('changePurchaseStatus','PurchaseController@changePurchaseStatus');
+
 //List stocks
 Route::get('stocks', 'StockController@index');
 
@@ -180,7 +186,7 @@ Route::post('stock/history', 'StockController@stockHistory');
 Route::delete('stock/{id}', 'StockController@destroy');
 
 //search stock
-Route::post('stock/search', 'StockController@searchPurchases');
+Route::post('stock/search', 'StockController@searchStock');
 
 //List single stockDetail
 Route::get('stockDetail/{id}', 'StockDetailController@show');
@@ -210,10 +216,10 @@ Route::get('dashInfo', 'DashboardController@dashInfo');
 Route::get('sales/chart/{before_month}', 'DashboardController@salesChart');
 
 //check user has store or not
-Route::get('store/check/', 'CheckController@checkUserForStore');
+Route::get('store/check', 'CheckController@checkUserForStore');
 
 //check user has permissions or not
-Route::get('permissions/check/', 'CheckController@checkPermissions');
+Route::get('permissions/check', 'CheckController@checkPermissions');
 
 
 //fetch stores of login user
@@ -241,7 +247,7 @@ Route::get('permissions', 'PermissionController@index');
 
 Route::post('permission', 'PermissionController@store');
 
-Route::put('permission/', 'PermissionController@update');
+Route::put('permission', 'PermissionController@update');
 
 Route::get('permission/{id}', 'PermissionController@show');
 

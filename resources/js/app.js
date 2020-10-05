@@ -122,6 +122,8 @@ Vue.use(VueExcelXlsx);
 //end of excel export
 
 
+
+
 let routes = [
 
   {
@@ -339,6 +341,19 @@ let routes = [
         }
       }
   },
+  {
+    path: '/:id/viewCustomerInfo',
+    name: 'viewCustomerInfo',
+    component: require('./components/customer/viewCustomerInfo.vue').default,
+
+     beforeEnter(to, from, next) {
+        let hasAccess = store.getters.permissions
+        if (hasAccess.includes('view_customers_info') || hasAccess.includes('all')) {
+          next()
+        }
+      }
+  },
+
 
   //supplier routes
   {

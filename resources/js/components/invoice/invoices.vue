@@ -5,10 +5,24 @@
     <p class="mb-4" v-if="hasPermission('add_invoice')">
       <router-link class="btn btn-primary" to="/newInvoice">New Invoice</router-link>
     </p>
+
+       
+
+
+              <!-- <label class="switch">
+  <input type="checkbox" checked>
+  <span class="slider round"></span>
+</label> -->
+
+
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary" style="display: inline-block;">Invoices</h6>
+
+        <div v-if="isLoading">{{isLoading}}
+
+        </div>
         <div v-if="isLoading">{{isLoading}}</div>
         <!-- {{isLoading}} -->
         <div class="searchTable">
@@ -26,6 +40,10 @@
         </div>
       </div>
       <div class="card-body" v-if="invoices.length > 0">
+
+        {{moment()}}
+
+
         <div class="table">
           <table class="table table-striped table-bordered" width="100%" cellspacing="0">
             <thead>
@@ -36,7 +54,7 @@
                 <th>Invoice Date</th>
                 <th>Due Date</th>
                 <th>Status</th>
-                <th>Last Modified at</th>
+                <!-- <th>Last Modified at</th> -->
                 <th>Modify</th>
               </tr>
             </thead>
@@ -51,28 +69,33 @@
                     </tr>
             </tfoot>-->
             <tbody>
+
+
               <tr v-for="invoice in invoices" v-bind:key="invoice.id">
                 <td>{{invoice.custom_invoice_id}}</td>
                 <td>Rs. {{invoice.grand_total}}</td>
                 <td>{{invoice.customer_name}}</td>
+                <td>{{invoice.invoice_date | moment("from","now")}}</td>
+                <td>
+                  <span v-if="(invoice.due_date<=todayDate)" class="bg-danger text-white p-2">{{invoice.due_date | moment("from","now")}}</span>
+                  <span v-else class="bg-success text-white p-2">{{invoice.due_date| moment("from","now")}}</span>
+                </td>
                 <td>{{invoice.invoice_date | moment("from", "now")}}</td>
                 <td>
                   <span v-if="(invoice.invoice_date === invoice.due_date)" class="bg-danger text-white p-2">{{invoice.due_date | moment("from", "now")}}</span>
                   <span v-else class="bg-success text-white p-2">{{invoice.due_date | moment("from", "now")}}</span>
                 </td>
-                <td style="color: #fff;text-align: center;" v-if="(invoice.status==='Paid')">
-                  <button class="btn btn-outline-success">
-                    {{invoice.status}}
-                    <span class="fa fa-check"></span>
-                  </button>
+<!-- tempStatus[invoice.id] = $event -->
+
+                <td v-if="(invoice.status==='Paid')">
+                       <toggle-button v-bind:status="true" @statusChanges ="updateStatus($event,invoice.id)"/> 
                 </td>
-                <td style="color: #fff;text-align: center;" v-else-if="(invoice.status==='To Pay')">
-                  <button class="btn btn-outline-danger">
-                    {{invoice.status}}
-                    <span class="fa fa-times"></span>
-                  </button>
+                
+                <td v-else-if="(invoice.status==='To Pay')">
+                       <toggle-button v-bind:status="false" @statusChanges ="updateStatus($event,invoice.id)"/> 
                 </td>
-                <td>{{invoice.updated_at | moment("from", "now")}}</td>
+
+                <!-- <td>{{invoice.updated_at | moment("from", "now")}}</td> -->
                 <td>
                   <button class="btn btn-outline-primary custom_btn_table" @click="showInvoice(invoice.id)" v-if="hasPermission('show_invoice')">
                     <span class="fa fa-align-justify custom_icon_table"></span>
@@ -116,12 +139,19 @@
         </div>
       </div>
       <div class="errorDivEmptyData" v-else>No Data Found</div>
+
     </div>
   </div>
 </template>
 
 <script>
+
+import ToggleButton from "../widgets/ToggleButton";
+import moment from 'moment-timezone'
 export default {
+  components:{
+      ToggleButton,
+  },
   data() {
     return {
       invoices: [],
@@ -129,12 +159,22 @@ export default {
       pagination: {},
       edit: false,
       searchTableKey: "",
-      isLoading: ""
+      isLoading: "",
+      tempStatus:{},
+      todayDate:""
     };
   },
 
   created() {
     this.fetchInvoices();
+    this.moment();
+  },
+
+  methods: {
+    moment(){
+      this.todayDate=moment().format('YYYY-DD-MM')
+    },
+  
   },
 
   methods: {
@@ -239,6 +279,43 @@ export default {
     searchTableBtn() {
       this.autoCompleteTable();
     },
+    updateStatus(event,key){
+      this.tempStatus[key]=event;
+
+      let formData=new FormData();
+      formData.append("_method","PUT");
+      formData.append("key",key);
+      if(event==true){
+        formData.append("value","Paid");  
+      }
+      else{
+        formData.append("value","To Pay");
+      }
+      
+      axios.post('/api/changeInvoiceStatus',formData)
+      .then(response=>{
+
+         this.$toast.success({
+          title: response.data.status,
+          message: response.data.msg
+        });
+
+
+
+      })
+      .catch(error=>{
+
+        this.$toast.error({
+          title: "Error",
+          message: "some error occured"
+        });
+
+        this.fetchInvoices();
+
+
+      });
+    },
+
     autoCompleteTable() {
       this.searchTableKey = this.searchTableKey.toLowerCase();
       if (this.searchTableKey != "") {
@@ -287,3 +364,65 @@ export default {
   } //end of methods
 }; //end of default
 </script>
+<style>
+  .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+</style>

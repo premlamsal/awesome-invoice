@@ -341,7 +341,8 @@ export default {
         // console.log('Somthing happened');
         this.$toast.error({
           title: "Opps!!",
-          message: e.message.toString()
+          // message: e.message.toString()
+          message: "Something happened"
         });
       }
     },
@@ -354,7 +355,7 @@ export default {
           currObj.dash = response.data;
         })
         .catch(function(error) {
-          console.log(error);
+          // console.log(error);
         });
     }
   },

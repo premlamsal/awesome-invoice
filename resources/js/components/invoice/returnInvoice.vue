@@ -361,7 +361,7 @@ export default {
         this.showProductSuggestion = false;
       } else {
         axios
-          .post("api/product_search/", {
+          .post("api/product_search", {
             searchQuery: this.items[index].product_name
           })
           .then(response => {

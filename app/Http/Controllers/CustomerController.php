@@ -26,6 +26,7 @@ class CustomerController extends Controller
     {
         $this->authorize('hasPermission', 'add_customer');
 
+
         $this->validate($request, [
             'name'    => 'required|regex:/^[\pL\s\-]+$/u',
             'address' => 'required|string|max:200',
@@ -86,9 +87,23 @@ class CustomerController extends Controller
 
     }
 
+    // public function search(Request $request){
+
+    //    $searchQuery= $request->searchQuery;
+
+    //    $queryResults=Customer::where('name','like','%'.$searchQuery.'%')->get();
+
+    //       return response()
+    //         ->json([
+    //             'search' => 'ok',
+    //             'queryResults' => $queryResults
+    //         ]);
+    // }
+
     public function destroy($id)
     {
         $this->authorize('hasPermission', 'delete_customer');
+
 
         $customer = Customer::findOrFail($id);
         if ($customer->delete()) {
@@ -109,6 +124,7 @@ class CustomerController extends Controller
     {
         $this->authorize('hasPermission', 'show_customer');
 
+       
         $customer = Customer::findOrFail($id);
         if ($customer->save()) {
             return response()->json([

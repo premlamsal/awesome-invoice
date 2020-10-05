@@ -455,7 +455,7 @@ export default {
 
       } else {
 
-        axios.post('api/products/search/', {
+        axios.post('api/products/search', {
           searchQuery: this.items[index].product_name
 
         }).then(response => {

@@ -11,10 +11,9 @@ use DB;
 
 class DashboardController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
 
-        $this->middleware('auth:api');
+      $this->middleware('auth:api');
     }
     //provide dashboard information like number of purchase, invoices, products and supplier
     public function dashInfo()
@@ -73,7 +72,7 @@ class DashboardController extends Controller
         foreach ($invoice as $key) {
             //enabling this will supply month name to response data for chart
             $date = $key->year . '-' . $key->month . '-' . $key->day; //joins year-month-day to single variable
-
+           
             $date = date('Y-m', strtotime($date)); //will give month name i.e Janurary, Februray etc.
             // $month[]=$date;
             $data[$date] = $key->grand_total; //pushing sum to array
@@ -84,21 +83,21 @@ class DashboardController extends Controller
         }
 
         //finding all records and assigning 0 if no sales in that month
-        for ($i = $before_month; $i > 0; $i--) {
-            //decrement loop from 6 to 1 months
+        for ($i = $before_month; $i >0; $i--) {
+         //decrement loop from 6 to 1 months
 
             //checks array has that key or not
-            if (array_key_exists(now()->subMonthNoOverflow($i - 1)->format('Y-m'), $data)) {
+            if (array_key_exists(now()->subMonthNoOverflow($i-1)->format('Y-m'), $data)) {
 
                 // echo now()->subMonthNoOverflow($i)->format('F');
 
                 //assinging data to new data array //eg.leaving as it is if month has sales
-                $newmonth[] = now()->subMonthNoOverflow($i - 1)->format('Y-m');
-                $newdata[]  = $data[now()->subMonthNoOverflow($i - 1)->format('Y-m')];
+                $newmonth[] = now()->subMonthNoOverflow($i-1)->format('Y-m');
+                $newdata[]  = $data[now()->subMonthNoOverflow($i-1)->format('Y-m')];
 
             } else {
                 // assging 0 to non-sales months
-                $newmonth[] = now()->subMonthNoOverflow($i - 1)->format('Y-m');
+                $newmonth[] = now()->subMonthNoOverflow($i-1)->format('Y-m');
                 $newdata[]  = "0.00";
 
                 // echo now()->subMonthNoOverflow($i)->format('F');

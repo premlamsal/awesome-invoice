@@ -60,6 +60,7 @@
               <tr v-for="category in categories" v-bind:key="category.id">
                 <td>{{category.name}}</td>
                 <td>{{category.description}}</td>
+                <td>{{category.updated_at | moment("from","now")}}</td>
                 <td>{{category.updated_at | moment("from", "now")}}</td>
                 <td>
                   <button class="btn btn-outline-success custom_btn_table" style="margin-right: 5px;" @click="editCategory(category.id)" v-if="hasPermission('edit_category')">

@@ -94,6 +94,11 @@
                 <td v-else>
                   <span class="bg-success text-white p-2">
                     {{
+                    user.email_verified_at 
+                    }}
+                  </span>
+                </td>
+                <td>{{ user.created_at }}</td>
                     user.email_verified_at | moment("from", "now")
                     }}
                   </span>

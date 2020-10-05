@@ -27,7 +27,7 @@
               type="text"
               value
               class="form-control"
-              placeholder="Search..."
+              placeholder="Search by Product ID"
               v-model="searchTableKey"
             />
             <div class="input-group-append">
@@ -194,7 +194,7 @@ export default {
         this.isLoading = "Loading Data...";
         let currObj = this;
         axios
-          .post("/api/stock_search", { searchQuery: this.searchTableKey })
+          .post("/api/stock/search", { searchQuery: this.searchTableKey })
           .then(function(response) {
             currObj.isLoading = "";
 
