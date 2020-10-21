@@ -45,25 +45,14 @@
                 <th>Modify</th>
               </tr>
             </thead>
-            <!--  <tfoot>
-                    <tr>
-                      <th>Purchase No.</th>
-                      <th>Grand Total</th>
-                      <th>Purchase</th>
-                      <th>Purchase Date</th>
-                      <th>Due Date</th>
-                      <th>Created At</th>
-                    </tr>
-            </tfoot>-->
+           
             <tbody>
               <tr v-for="purchase in purchases" v-bind:key="purchase.id">
                 <td>{{purchase.custom_purchase_id}}</td>
                 <td>Rs. {{purchase.grand_total}}</td>
                 <td>{{purchase.supplier_name}}</td>
                 <td>{{purchase.purchase_date | moment("from","now")}}</td>
-                <td>  <span v-if="(purchase.due_date<=todayDate)" class="bg-danger text-white p-2">{{purchase.due_date | moment("from","now")}}</span>
-                  <span v-else class="bg-success text-white p-2">{{purchase.due_date | moment("from","now")}}</span></td>
-                <td>{{purchase.purchase_date}}</td>
+
                 <td>{{purchase.due_date | moment("from", "now")}}</td>
 
                <td v-if="(purchase.status==='Paid')">
@@ -74,9 +63,6 @@
                        <toggle-button v-bind:status="false" @statusChanges ="updateStatus($event,purchase.id)"/> 
                 </td>
 
-
-
-                <td>{{purchase.updated_at}}</td>
                 <td>{{purchase.updated_at | moment("from", "now")}}</td>
                 <td>
                   <button class="btn btn-outline-primary custom_btn_table" @click="showPurchase(purchase.id)">
