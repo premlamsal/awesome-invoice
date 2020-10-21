@@ -89,13 +89,12 @@
                 <td>{{customer.address}}</td>
                 <td>{{customer.phone}}</td>
                 <td>{{customer.details}}</td>
-                <td>{{customer.updated_at | moment("from","now")}}</td>
-                <td>
+
+                <td>{{customer.updated_at | moment("from", "now")}}</td>
+                 <td>
                    <button class="btn btn-outline-success custom_btn_table" @click="viewCustomerInfo(customer.id)" v-if="hasPermission('view_customer_info')">
                     <span class="fa fa-align-justify custom_icon_table"></span>
                   </button>
-                <td>{{customer.updated_at | moment("from", "now")}}</td>
-                <td>
                   <button class="btn btn-outline-success custom_btn_table" @click="editCustomer(customer.id)" v-if="hasPermission('edit_customer')">
                     <span class="fa fa-edit custom_icon_table"></span>
                   </button>
@@ -353,6 +352,7 @@ export default {
       formData.append("name", this.customer.name);
       formData.append("address", this.customer.address);
       formData.append("phone", this.customer.phone);
+      formData.append("details",this.customer.details);
       formData.append("id", this.customer.id);
 
       axios
