@@ -137,13 +137,13 @@ export default {
 
   created() {
     this.fetchPurchases();
-    this.moment();
+    // this.moment();das
   },
 
   methods: {
-     moment(){
-      this.todayDate=moment().format('YYYY-DD-MM')
-    },
+    //  moment(){
+    //   this.todayDate=moment().format('YYYY-DD-MM')
+    // },
   },
 
   methods: {

@@ -77,8 +77,8 @@
                 <td>{{invoice.customer_name}}</td>
                 <td>{{invoice.invoice_date | moment("from","now")}}</td>
                 <td>
-                  <span v-if="(invoice.due_date<=todayDate)" class="bg-danger text-white p-2">{{invoice.due_date | moment("from","now")}}</span>
-                  <span v-else class="bg-success text-white p-2">{{invoice.due_date| moment("from","now")}}</span>
+                  <span v-if="(invoice.due_date<=todayDate)" class="bg-danger text-white p-2">{{invoice.due_date | moment("from","now")}}</span> 
+                  <span v-else class="bg-success text-white p-2">{{invoice.due_date | moment("from","now")}}</span>
                 </td>
                 <td>{{invoice.invoice_date | moment("from", "now")}}</td>
                 <td>
@@ -148,6 +148,7 @@
 
 import ToggleButton from "../widgets/ToggleButton";
 import moment from 'moment-timezone'
+
 export default {
   components:{
       ToggleButton,
@@ -168,11 +169,12 @@ export default {
   created() {
     this.fetchInvoices();
     this.moment();
+
   },
 
   methods: {
     moment(){
-      this.todayDate=moment().format('YYYY-DD-MM')
+      this.todayDate = moment().format('YYYY-DD-MM')
     },
   
   },
