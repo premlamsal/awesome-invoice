@@ -55,10 +55,16 @@
             </template>
           </div>
           <div class="form-group">
-            <input type="hidden" v-model="product.price" />
+            <input type="hidden" v-model="product.cp" />
             <label for="Cost Price">Cost Price:</label>
-            <input type="text" v-model="product.price" :class="['form-control']" />
-            <span v-if="errors.price" :class="['errorText']">{{ errors.price[0] }}</span>
+            <input type="text" v-model="product.cp" :class="['form-control']" />
+            <span v-if="errors.cp" :class="['errorText']">{{ errors.cp[0] }}</span>
+          </div>
+           <div class="form-group">
+            <input type="hidden" v-model="product.sp" />
+            <label for="Cost Price">Selling Price:</label>
+            <input type="text" v-model="product.sp" :class="['form-control']" />
+            <span v-if="errors.sp" :class="['errorText']">{{ errors.sp[0] }}</span>
           </div>
 
           <div class="form-group">
@@ -130,7 +136,8 @@
                 <th>Product Name</th>
                 <th>Description</th>
                 <th>Unit</th>
-                <th>Price</th>
+                <th>CP</th>
+                <th>SP</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -159,7 +166,8 @@
                 <td>{{product.name}}</td>
                 <td>{{product.description}}</td>
                 <td>{{product.unit.short_name}}</td>
-                <td>Rs. {{product.price}}</td>
+                <td>Rs. {{product.cp}}</td>
+                <td>Rs. {{product.sp}}</td>
                 <td>
                   <button
                     class="btn btn-outline-success custom_btn_table"
@@ -228,7 +236,8 @@ export default {
       products: {
         custom_product_id: "",
         name: "",
-        price: "",
+        cp: "",
+        sp: "",
         description: "",
         category: {},
         unit: {}
@@ -462,7 +471,8 @@ export default {
       formData.append("product_cat_id", this.product.product_cat_id);
       formData.append("unit_id", this.product.unit_id);
       formData.append("description", this.product.description);
-      formData.append("price", this.product.price);
+      formData.append("cp", this.product.cp);
+      formData.append("sp", this.product.sp);
 
       // posting data //using post and sending form data as PUT to match the api route name setting
       axios
@@ -481,7 +491,8 @@ export default {
           currObj.product.address = "";
           currObj.product.phone = "";
           currObj.product.description = "";
-          currObj.product.price = "";
+          currObj.product.cp = "";
+          currObj.product.sp = "";
 
           currObj.setAvtarUploadImage();
 
@@ -517,7 +528,8 @@ export default {
             response.data.product.description
           );
           Vue.set(this.product, "unit_id", response.data.product.unit_id);
-          Vue.set(this.product, "price", response.data.product.price);
+          Vue.set(this.product, "cp", response.data.product.cp);
+          Vue.set(this.product, "sp", response.data.product.sp);
           Vue.set(
             this.product,
             "product_cat_id",
@@ -554,7 +566,8 @@ export default {
       formData.append("product_cat_id", this.product.product_cat_id);
       formData.append("unit_id", this.product.unit_id);
       formData.append("description", this.product.description);
-      formData.append("price", this.product.price);
+      formData.append("cp", this.product.cp);
+      formData.append("sp", this.product.sp);
 
       // posting data //using post and sending form data as PUT to match the api route name setting
       axios
@@ -572,7 +585,8 @@ export default {
           currObj.product.address = "";
           currObj.product.phone = "";
           currObj.product.description = "";
-          currObj.product.price = "";
+          currObj.product.cp = "";
+          currObj.product.sp = "";
 
           currObj.setAvtarUploadImage();
 

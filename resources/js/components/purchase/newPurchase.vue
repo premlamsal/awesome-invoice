@@ -135,7 +135,7 @@
                       <!--  suggestion block -->
                       <div class="product-search-suggestion-purchase">
                         <ul>
-                          <li @click="clickSearchProductSuggestion(queryResultsProduct.id,queryResultsProduct.custom_product_id,queryResultsProduct.name,queryResultsProduct.unit.id,queryResultsProduct.price,index)"  v-for="queryResultsProduct in queryResultsProducts[index]" v-bind:key="queryResultsProduct.id">{{queryResultsProduct.name}} -></li>
+                          <li @click="clickSearchProductSuggestion(queryResultsProduct.id,queryResultsProduct.custom_product_id,queryResultsProduct.name,queryResultsProduct.unit.id,queryResultsProduct.cp,index)"  v-for="queryResultsProduct in queryResultsProducts[index]" v-bind:key="queryResultsProduct.id">{{queryResultsProduct.name}} -></li>
                         </ul>
                       </div>
                       <!--  <span v-if="errors['items.' + index + '.product_name']">
@@ -494,7 +494,7 @@ export default {
       custom_product_id,
       product_name,
       unit_id,
-      price,
+      cp,
       index
     ) {
 
@@ -509,7 +509,7 @@ export default {
 
         Vue.set(this.items[index], "unit_id", unit_id);
 
-        Vue.set(this.items[index], "price", parseFloat(price));
+        Vue.set(this.items[index], "price", parseFloat(cp));
 
 
         Vue.set(this.cloneItems[index], "product_id", product_id);
@@ -523,8 +523,7 @@ export default {
         Vue.set(
           this.cloneItems[index],
           "price",
-          parseFloat(price) +
-          (parseFloat(price) * parseFloat(this.store.profit_percentage)) / 100
+          parseFloat(cp)
         );
 
         // this.items[index] = this.items[index] + (this.store.profit_percentage)/100;
