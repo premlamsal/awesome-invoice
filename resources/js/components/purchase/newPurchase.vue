@@ -27,10 +27,10 @@
                   </ul>
                 </div>
               </div>
-              <b-button id="show-btn" @click="$bvModal.show('bv-modal-example')" class="btn btn-warning" style="margin-top: 8px;">
+              <b-button id="show-btn" @click="$bvModal.show('bv-modal-add-supplier')" class="btn btn-warning" style="margin-top: 8px;">
                 <span class="fa fa-plus-circle"></span> Add Supplier
               </b-button>
-              <b-modal id="bv-modal-example" hide-footer>
+              <b-modal id="bv-modal-add-supplier" hide-footer>
                 <template v-slot:modal-title>Add Supplier</template>
                 <div class="d-block">
                   <div class="form-group">
@@ -390,7 +390,7 @@ export default {
           }
         });
     },
-    addCustomer() {
+    addSupplier() {
       let currObj = this;
       axios
         .post("/api/supplier", this.supplier)
@@ -408,7 +408,6 @@ export default {
 
           currObj.errors = ""; //clearing errors
 
-          currObj.fetchCustomers();
         })
         .catch(function(error) {
           if (error.response.status == 422) {

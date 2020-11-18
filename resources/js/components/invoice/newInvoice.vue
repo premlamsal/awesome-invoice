@@ -27,10 +27,10 @@
                   </ul>
                 </div>
               </div>
-              <b-button id="show-btn" @click="$bvModal.show('bv-modal-example')" class="btn btn-warning" style="margin-top: 8px;">
+              <b-button id="show-btn" @click="$bvModal.show('bv-modal-add-customer')" class="btn btn-warning" style="margin-top: 8px;">
                 <span class="fa fa-plus-circle"></span> Add Customer
               </b-button>
-              <b-modal id="bv-modal-example" hide-footer>
+              <b-modal id="bv-modal-add-customer" hide-footer>
                 <template v-slot:modal-title>Add Customer</template>
                 <div class="d-block">
                   <div class="form-group">
