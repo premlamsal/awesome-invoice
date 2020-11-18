@@ -135,7 +135,7 @@ Route::post('category', 'CategoryController@store');
 Route::put('category', 'CategoryController@update');
 
 //Delete Category
-Route::delete('Category/{id}', 'CategoryController@destroy');
+Route::delete('category/{id}', 'CategoryController@destroy');
 
 //Search Category
 Route::post('categories/search', 'CategoryController@searchCategories');
