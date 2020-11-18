@@ -546,6 +546,9 @@ class PurchaseController extends Controller
 
     public function changePurchaseStatus(Request $request)
     {
+
+        $this->authorize('hasPermission', 'edit_purchase');
+        
         $key = $request->input('key');
 
         $value = $request->input('value');

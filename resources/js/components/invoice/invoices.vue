@@ -41,7 +41,6 @@
       </div>
       <div class="card-body" v-if="invoices.length > 0">
 
-        {{moment()}}
 
 
         <div class="table">
@@ -145,9 +144,8 @@
 </template>
 
 <script>
-
+//custom toggle button
 import ToggleButton from "../widgets/ToggleButton";
-import moment from 'moment-timezone'
 
 export default {
   components:{
@@ -168,14 +166,10 @@ export default {
 
   created() {
     this.fetchInvoices();
-    this.moment();
 
   },
 
   methods: {
-    moment(){
-      this.todayDate = moment().format('YYYY-DD-MM')
-    },
   
   },
 

@@ -112,8 +112,8 @@
 </template>
 
 <script>
+  //custom toggle button
 import ToggleButton from "../widgets/ToggleButton";
-import moment from 'moment-timezone'
 
 export default {
 

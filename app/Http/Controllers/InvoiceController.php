@@ -476,6 +476,9 @@ class InvoiceController extends Controller
     }
     public function changeInvoiceStatus(Request $request)
     {
+
+        $this->authorize('hasPermission', 'edit_invoice');
+        
         $key = $request->input('key');
 
         $value = $request->input('value');
